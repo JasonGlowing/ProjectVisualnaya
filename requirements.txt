@@ -2,7 +2,3 @@ fastapi
 uvicorn
 sqlalchemy
 pydantic
-python-dotenv
-httpx
-pytest
-pytest-asyncio
