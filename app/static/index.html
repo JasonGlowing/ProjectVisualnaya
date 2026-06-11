@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#111827" />
+  <title>Smart Task Planner — клиентский сайт</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Smart Task Planner">
+      <span class="brand-mark">✦</span>
+      <span>Smart Task Planner</span>
+    </a>
+    <nav class="nav" aria-label="Навигация">
+      <a href="#features">Возможности</a>
+      <a href="#app">Планировщик</a>
+      <a href="/docs">API docs</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero section">
+      <div class="hero-copy">
+        <p class="eyebrow">AI-планировщик задач</p>
+        <h1>Разложите хаос на понятный план действий</h1>
+        <p class="subtitle">Создавайте задачи, а система автоматически подскажет категорию, примерную длительность и поможет держать фокус на важном.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#app">Начать планировать</a>
+          <a class="button ghost" href="#features">Посмотреть возможности</a>
+        </div>
+      </div>
+
+      <aside class="hero-dashboard" aria-label="Обзор задач">
+        <div class="mini-card active">
+          <span>Всего задач</span>
+          <strong id="heroTotal">0</strong>
+        </div>
+        <div class="mini-card">
+          <span>Среднее время</span>
+          <strong id="heroAverage">0 мин</strong>
+        </div>
+        <div class="mini-card wide">
+          <span>Фокус дня</span>
+          <strong id="heroFocus">Добавьте первую задачу</strong>
+        </div>
+      </aside>
+    </section>
+
+    <section class="features section" id="features">
+      <article>
+        <span class="feature-icon">⚡</span>
+        <h2>Быстрое добавление</h2>
+        <p>Запишите задачу за несколько секунд: название, описание и сложность.</p>
+      </article>
+      <article>
+        <span class="feature-icon">🤖</span>
+        <h2>AI-подсказки</h2>
+        <p>Backend автоматически определяет категорию и оценивает время выполнения.</p>
+      </article>
+      <article>
+        <span class="feature-icon">🎯</span>
+        <h2>Фокус и фильтры</h2>
+        <p>Ищите задачи, фильтруйте по сложности и видьте нагрузку в цифрах.</p>
+      </article>
+    </section>
+
+    <section class="app-shell section" id="app">
+      <div class="app-header">
+        <div>
+          <p class="eyebrow">Рабочая область</p>
+          <h2>Ваш список задач</h2>
+        </div>
+        <button class="button ghost small" id="refreshButton" type="button">Обновить</button>
+      </div>
+
+      <div class="stats-grid" aria-label="Статистика задач">
+        <div class="stat-card">
+          <span>Всего</span>
+          <strong id="taskCount">0</strong>
+        </div>
+        <div class="stat-card">
+          <span>Минут запланировано</span>
+          <strong id="totalMinutes">0</strong>
+        </div>
+        <div class="stat-card">
+          <span>Сложных задач</span>
+          <strong id="hardTasks">0</strong>
+        </div>
+      </div>
+
+      <div class="workspace">
+        <form class="card form" id="taskForm">
+          <div class="card-title">
+            <h3>Новая задача</h3>
+            <p>Опишите задачу — AI сделает первичную оценку.</p>
+          </div>
+
+          <label>
+            Название
+            <input id="title" name="title" type="text" placeholder="Например: Подготовить презентацию" maxlength="90" required />
+          </label>
+
+          <label>
+            Описание
+            <textarea id="description" name="description" placeholder="Что нужно сделать, какой результат ожидается?" maxlength="500" required></textarea>
+          </label>
+
+          <label>
+            Сложность
+            <select id="complexity" name="complexity">
+              <option value="low">Лёгкая</option>
+              <option value="medium" selected>Средняя</option>
+              <option value="high">Сложная</option>
+            </select>
+          </label>
+
+          <div class="quick-presets" aria-label="Быстрые шаблоны">
+            <button type="button" data-preset="report">Отчёт</button>
+            <button type="button" data-preset="meeting">Встреча</button>
+            <button type="button" data-preset="learning">Обучение</button>
+          </div>
+
+          <button class="button primary full" type="submit" id="submitButton">Добавить задачу</button>
+          <p class="status" id="formStatus" role="status"></p>
+        </form>
+
+        <section class="card tasks-panel" aria-label="Список задач">
+          <div class="toolbar">
+            <label class="search-field">
+              <span>Поиск</span>
+              <input id="searchInput" type="search" placeholder="Найти задачу..." />
+            </label>
+            <label>
+              <span>Сложность</span>
+              <select id="filterComplexity">
+                <option value="all">Все</option>
+                <option value="low">Лёгкие</option>
+                <option value="medium">Средние</option>
+                <option value="high">Сложные</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="empty visible" id="emptyState">
+            <div class="empty-icon">✓</div>
+            <h3>Пока задач нет</h3>
+            <p>Добавьте первую задачу — она появится здесь с категорией и оценкой времени.</p>
+          </div>
+
+          <div class="task-list" id="taskList"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <template id="taskTemplate">
+    <article class="task-item">
+      <div class="task-main">
+        <div class="task-topline">
+          <h3></h3>
+          <span class="complexity-dot"></span>
+        </div>
+        <p class="task-description"></p>
+        <div class="meta"></div>
+      </div>
+      <button class="button danger" type="button">Удалить</button>
+    </article>
+  </template>
+
+  <script src="/static/config.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>

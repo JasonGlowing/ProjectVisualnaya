@@ -1,89 +1,31 @@
-# Simple Smart Task Planner
+# Smart Task Planner
 
-Очень простой backend-проект для задания **Smart Task Planner**.
+Клиентский веб-сайт и API для AI-планировщика задач на FastAPI + SQLite.
 
-Проект специально упрощен: вся логика находится в одном файле `main.py`.
+## Что внутри
 
-## Что есть в проекте
-
-- FastAPI backend
-- SQLite база данных
-- создание задач
-- просмотр задач
-- отметка задачи как выполненной
-- удаление задачи
-- простая "AI"-категоризация по ключевым словам
-- простая оценка времени выполнения
-- Swagger-документация
-
-## Структура
-
-```text
-simple-smart-task-planner/
-├─ main.py
-├─ requirements.txt
-├─ README.md
-└─ AI_ASSISTANT_LOG.md
-```
-
-## Установка
-
-```bash
-pip install -r requirements.txt
-```
+- Современный адаптивный клиентский сайт на HTML/CSS/JavaScript
+- Создание, просмотр, поиск, фильтрация и удаление задач
+- Статистика по задачам: количество, минуты, сложные задачи, фокус дня
+- Быстрые шаблоны задач
+- AI-категоризация и оценка времени на backend
+- Swagger/OpenAPI документация
+- Pytest-тесты
 
 ## Запуск
 
 ```bash
-uvicorn main:app --reload
+pip install -r requirements.txt
+uvicorn app.main:app --reload
 ```
 
-## Открыть API
+После запуска откройте:
 
-После запуска открой в браузере:
+- Сайт: http://127.0.0.1:8000/
+- API docs: http://127.0.0.1:8000/docs
 
-```text
-http://127.0.0.1:8000/docs
+## Тесты
+
+```bash
+pytest
 ```
-
-## Пример создания задачи
-
-В Swagger открой:
-
-```text
-POST /tasks
-```
-
-Body:
-
-```json
-{
-  "title": "Учить FastAPI",
-  "description": "Пройти урок по FastAPI и сделать конспект",
-  "complexity": "medium"
-}
-```
-
-Ответ будет примерно такой:
-
-```json
-{
-  "id": 1,
-  "title": "Учить FastAPI",
-  "description": "Пройти урок по FastAPI и сделать конспект",
-  "category": "обучение",
-  "estimated_minutes": 30,
-  "complexity": "medium",
-  "completed": false
-}
-```
-
-## Важно
-
-В этом упрощенном проекте нет настоящего OpenAI API.  
-Вместо него используется простая имитация AI-логики через функции:
-
-- `guess_category()`
-- `estimate_minutes()`
-
-Это сделано, чтобы проект легко запускался без API-ключей.
