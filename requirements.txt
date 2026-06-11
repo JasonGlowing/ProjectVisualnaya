@@ -3,6 +3,6 @@ uvicorn
 sqlalchemy
 pydantic
 python-dotenv
-httpx
+httpx==0.27.2
 pytest
 pytest-asyncio
